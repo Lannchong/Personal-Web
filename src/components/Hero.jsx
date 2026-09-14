@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+﻿import { useEffect, useState } from 'react';
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowRight, ArrowUpRight, Gamepad2, Sparkles } from 'lucide-react';
 
@@ -11,7 +11,7 @@ function PixelHeroArt({ sx, sy }) {
   const starsX = useTransform(sx, [-0.5, 0.5], [9, -9]);
   const starsY = useTransform(sy, [-0.5, 0.5], [6, -6]);
   const mtsX = useTransform(sx, [-0.5, 0.5], [-7, 7]);
-  // Pure-CSS/SVG game mockup — no external image needed, with local fallback
+  // Pure-CSS/SVG game mockup - no external image needed, with local fallback
   return (
     <div className="game-card">
       <svg viewBox="0 0 400 460" style={{ width: '100%', height: '100%', display: 'block' }} role="img" aria-label="Pixel platformer game mockup">
@@ -57,7 +57,7 @@ function PixelHeroArt({ sx, sy }) {
           <rect x="250" y="278" width="12" height="16" rx="6" />
           <rect x="285" y="180" width="12" height="16" rx="6" />
         </g>
-        {/* hero character — chunky pixel knight */}
+        {/* hero character - chunky pixel knight */}
         <g transform="translate(88,300)">
           <rect x="0" y="0" width="44" height="40" rx="6" fill="#f5f5f2" />
           <rect x="8" y="10" width="12" height="12" fill="#111" />
@@ -77,7 +77,7 @@ function PixelHeroArt({ sx, sy }) {
 
       <div className="game-hud">
         <div className="hud-top">
-          <span className="hud-pill">● Level 01 — Pixel Run</span>
+          <span className="hud-pill">● Level 01 · Pixel Run</span>
           <span className="hud-score">★ 1,240</span>
         </div>
         <div className="hud-bottom">
@@ -93,7 +93,7 @@ export default function Hero() {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   // Damped follow: the visual eases toward the cursor instead of being
-  // hard-bound to it — no shaking, no jitter, fluid return on leave.
+  // hard-bound to it - no shaking, no jitter, fluid return on leave.
   const sx = useSpring(mx, { stiffness: 90, damping: 18, mass: 0.6 });
   const sy = useSpring(my, { stiffness: 90, damping: 18, mass: 0.6 });
   const rx = useTransform(sx, [-0.5, 0.5], [-10, 10]);
@@ -108,6 +108,31 @@ export default function Hero() {
     try { sessionStorage.setItem('daven-intro', '1'); } catch { /* ignore */ }
   }, []);
   const d = (v) => (fast ? v * 0.1 : v);
+  // Reduced motion: kill infinite loops, keep one-shot reveals meaningful.
+  const reduceMotion = useReducedMotion();
+
+  // Touch screens: no mouse-follow / parallax - springs stay at rest,
+  // ambient float + reveal animations keep running (no jitter source).
+  const [canHover] = useState(() => {
+    try {
+      return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    } catch {
+      return false;
+    }
+  });
+  const visualHandlers = canHover
+    ? {
+        onMouseMove: (e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          mx.set((e.clientX - r.left) / r.width - 0.5);
+          my.set((e.clientY - r.top) / r.height - 0.5);
+        },
+        onMouseLeave: () => {
+          mx.set(0);
+          my.set(0);
+        },
+      }
+    : {};
 
   return (
     <section id="home" className="hero">
@@ -120,25 +145,25 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: d(0.98), ease }}
           >
             <span className="hero-label">
-              <span className="dot" /> 2D Game Developer — Creative Developer
+              2D Game Developer / Creative Developer
             </span>
           </motion.div>
 
           <h1 className="h-display h-xl hero-title">
             <span className="line">
               <motion.span
-                initial={{ y: '110%' }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.9, delay: d(1.06), ease }}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: d(1.06), ease }}
               >
                 I build <span className="accent">playful</span>
               </motion.span>
             </span>
             <span className="line">
               <motion.span
-                initial={{ y: '110%' }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.9, delay: d(1.16), ease }}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: d(1.18), ease }}
               >
                 digital experiences.
               </motion.span>
@@ -152,7 +177,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: d(1.3), ease }}
           >
             Saya seorang 2D Game Developer dan Creative Developer yang berfokus pada
-            game, interactive experiences, dan digital products — dengan perpaduan
+            game, interactive experiences, dan digital products, dengan perpaduan
             design dan technology.
           </motion.p>
 
@@ -173,17 +198,6 @@ export default function Hero() {
               Let&apos;s Talk <ArrowUpRight size={16} />
             </Link>
           </motion.div>
-
-          <motion.div
-            className="hero-facts"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: d(1.5) }}
-          >
-            <div><strong>Unity-first</strong><span>2D game dev</span></div>
-            <div><strong>Design + Code</strong><span>UI/UX & frontend</span></div>
-            <div><strong>Based in ID</strong><span>Open to collab</span></div>
-          </motion.div>
         </div>
 
         <motion.div
@@ -191,17 +205,13 @@ export default function Hero() {
           initial={{ opacity: 0, x: 60, scale: 0.97 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 1, delay: d(1.2), ease }}
-          onMouseMove={(e) => {
-            const r = e.currentTarget.getBoundingClientRect();
-            mx.set((e.clientX - r.left) / r.width - 0.5);
-            my.set((e.clientY - r.top) / r.height - 0.5);
-          }}
-          onMouseLeave={() => { mx.set(0); my.set(0); }}
+          {...visualHandlers}
         >
           <motion.div style={{ x: rx, y: ry }}>
+            {/* Idle breathing: 4px over 4s - alive, never bouncy */}
             <motion.div
-              animate={{ y: [0, -7, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+              animate={reduceMotion ? { y: 0 } : { y: [0, -4, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             >
               <PixelHeroArt sx={sx} sy={sy} />
             </motion.div>
@@ -209,7 +219,7 @@ export default function Hero() {
 
           <motion.div
             className="float-chip float-a"
-            animate={{ y: [0, -6, 0] }}
+            animate={reduceMotion ? { y: 0 } : { y: [0, -4, 0] }}
             transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
           >
             <span className="chip-icon accent"><Gamepad2 size={16} /></span>
@@ -217,7 +227,7 @@ export default function Hero() {
           </motion.div>
           <motion.div
             className="float-chip float-b"
-            animate={{ y: [0, 6, 0] }}
+            animate={reduceMotion ? { y: 0 } : { y: [0, 4, 0] }}
             transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
           >
             <span className="chip-icon"><Sparkles size={16} /></span>
@@ -240,7 +250,6 @@ export default function Hero() {
           >
             Scroll <ArrowDown size={13} />
           </Link>
-          <span>06.20°S — 106.84°E / Jakarta, ID</span>
         </motion.div>
       </div>
     </section>

@@ -1,15 +1,16 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Reveal } from './Reveal';
 
 const ITEMS = ['Game Development', 'UI/UX', 'Creative Code', 'Interaction', '2D Design', 'Game Feel'];
 
 function MarqueeRow() {
+  const reduceMotion = useReducedMotion();
   const row = [...ITEMS, ...ITEMS];
   return (
     <div className="marquee" aria-hidden="true">
       <motion.div
         className="marquee-track"
-        animate={{ x: ['0%', '-50%'] }}
+        animate={reduceMotion ? { x: 0 } : { x: ['0%', '-50%'] }}
         transition={{ duration: 34, repeat: Infinity, ease: 'linear' }}
       >
         {row.map((t, i) => (

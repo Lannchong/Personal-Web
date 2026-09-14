@@ -25,13 +25,12 @@ export default function ProjectCard({ project, featured = false }) {
       <Link
         to={`/daven/project/${project.id}`}
         className={`project-card ${featured ? 'featured' : ''}`}
-        data-cursor="view"
         aria-label={`View project ${project.title}`}
       >
-        <div className="project-media">
+        <div className="project-media" data-cursor="view">
           <img
             src={project.image}
-            alt={`${project.title} — ${project.kind}`}
+            alt={`${project.title} - ${project.kind}`}
             loading="lazy"
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
           />

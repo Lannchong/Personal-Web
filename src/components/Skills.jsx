@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate, motion, useInView } from 'framer-motion';
 import { skills } from '../data/site';
+import TechLogos from './TechLogos';
 import { Reveal, SectionHeading } from './Reveal';
 
 function Pct({ value }) {
@@ -19,10 +20,15 @@ function Pct({ value }) {
   }, [inView, value]);
 
   return (
-    <span ref={ref} className="skill-pct" aria-label={`${value} percent`}>
+    <span ref={ref} className="skill-pct" aria-label={`${value} percent of focus`}>
       {n}<em>%</em>
     </span>
   );
+}
+
+const focusTotal = skills.reduce((a, s) => a + s.percent, 0);
+if (import.meta.env.DEV && focusTotal !== 100) {
+  console.warn(`[skills] focus distribution total is ${focusTotal}, expected 100.`);
 }
 
 export default function Skills() {
@@ -33,8 +39,14 @@ export default function Skills() {
           index="03"
           label="Skills"
           title={<>Tools I use<span className="accent">.</span></>}
-          desc="Unity sebagai senjata utama — didukung frontend dan UI/UX untuk pengalaman yang utuh."
+          desc="Unity sebagai senjata utama, didukung frontend dan UI/UX untuk pengalaman yang utuh."
         />
+        <Reveal delay={0.1}>
+          <div className="focus-head" aria-label={`Areas of focus, total ${focusTotal} percent`}>
+            <span>Areas of focus</span>
+            <span>Total {focusTotal}%</span>
+          </div>
+        </Reveal>
         <div className="skills-list">
           {skills.map((s, i) => (
             <motion.div
@@ -47,10 +59,7 @@ export default function Skills() {
             >
               <span className="idx">{s.id}</span>
               <div className="skill-main">
-                <h3>
-                  {s.title}
-                  {s.highlight && <em className="main-star">★ Main</em>}
-                </h3>
+                <h3>{s.title}</h3>
                 <p>{s.desc}</p>
                 <div className="skill-tags">
                   {s.tags.map((t) => (
@@ -59,14 +68,22 @@ export default function Skills() {
                     </span>
                   ))}
                 </div>
+                <div className="focus-bar" aria-hidden="true">
+                  <motion.i
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${s.percent}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: 0.2 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
               </div>
               <Pct value={s.percent} />
             </motion.div>
           ))}
         </div>
-        <p style={{ fontSize: '0.82rem', color: 'var(--muted)', marginTop: 12 }}>
-          * Persentase placeholder — mudah diubah di <code>src/data/site.js</code>.
-        </p>
+        <Reveal delay={0.05}>
+          <TechLogos />
+        </Reveal>
       </div>
     </section>
   );

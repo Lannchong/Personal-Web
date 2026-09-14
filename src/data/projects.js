@@ -16,7 +16,7 @@ export const projects = [
     image: '/assets/projects/project-01.svg',
     fallback: ['#1a1a1a', '#ff4d00'],
     description:
-      'A tight 2D platformer prototype focused on game feel — coyote time, jump buffering, squash & stretch, and a short hand-crafted level.',
+      'A tight 2D platformer prototype focused on game feel, coyote time, jump buffering, squash & stretch, and a short hand-crafted level.',
     overview:
       'Pixel Platformer adalah project utama saya untuk mengeksplorasi game feel 2D. Fokusnya bukan konten panjang, melainkan satu level yang terasa enak dimainkan: lompatan responsif, musuh sederhana, dan scoring yang jelas.',
     points: ['Gameplay & game mechanics', 'Art direction & pixel tiles', 'Level design & difficulty tuning'],
@@ -34,7 +34,7 @@ export const projects = [
     image: '/assets/projects/project-02.svg',
     fallback: ['#101828', '#2b5cff'],
     description:
-      'Top-down adventure experiment — exploration, NPC dialogue and simple quest flow in a cozy pixel world.',
+      'Top-down adventure experiment: exploration, NPC dialogue and simple quest flow in a cozy pixel world.',
     overview:
       'Eksperimen adventure top-down dengan dialog NPC sederhana, quest flow, dan dunia kecil yang cozy. Dibuat untuk belajar world building & pacing.',
     points: ['Exploration loop', 'Dialogue system', 'Quest flow'],
@@ -52,7 +52,7 @@ export const projects = [
     image: '/assets/projects/project-03.svg',
     fallback: ['#f0ede6', '#111111'],
     description:
-      'Mobile game UI kit — main menu, HUD, shop & settings designed for clarity and playful character.',
+      'Mobile game UI kit: main menu, HUD, shop & settings designed for clarity and playful character.',
     overview:
       'Design UI game mobile dari wireframe sampai high-fidelity: main menu, HUD, shop, dan settings. Fokus pada readability saat bermain dan konsistensi visual.',
     points: ['Problem & research', 'Wireframe & flow', 'Visual design & prototype'],
@@ -70,7 +70,7 @@ export const projects = [
     image: '/assets/projects/project-04.svg',
     fallback: ['#e8e6e0', '#ff4d00'],
     description:
-      'This portfolio — editorial layout, motion system, dark mode & reusable component architecture.',
+      'This portfolio: editorial layout, motion system, dark mode & reusable component architecture.',
     overview:
       'Website ini sendiri: arsitektur component reusable, design system dengan CSS variables, dark mode, custom cursor, dan animasi yang purposeful.',
     points: ['Design system', 'Motion & interaction', 'Performance & a11y'],
@@ -88,7 +88,7 @@ export const projects = [
     image: '/assets/projects/project-05.svg',
     fallback: ['#111111', '#7c5cff'],
     description:
-      'A set of small interactive experiments — magnetic buttons, pixel followers & playful cursor states.',
+      'A set of small interactive experiments: magnetic buttons, pixel followers & playful cursor states.',
     overview:
       'Kumpulan eksperimen interaksi kecil untuk web: magnetic button, pixel follower, dan cursor states. Tujuannya eksplorasi game feel di luar game.',
     points: ['Interaction design', 'Motion prototyping', 'Playful details'],

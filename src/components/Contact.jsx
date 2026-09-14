@@ -12,7 +12,7 @@ export default function Contact() {
         <Reveal>
           <div className="contact-box">
             <div className="section-meta" style={{ justifyContent: 'center' }}>
-              <span className="num">09</span><span>/ Contact</span>
+              <span className="num">06</span><span>/ Contact</span>
             </div>
             <h2 className="h-display h-lg" style={{ margin: '0 0 16px', position: 'relative' }}>
               Let&apos;s build something<br /><span className="accent">meaningful</span> together.
@@ -91,7 +91,6 @@ export function Footer() {
         </div>
         <div className="foot">
           <span>© 2026 Daven. All rights reserved.</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.1em' }}>ID / 06.20°S 106.84°E — V1.0</span>
           <button
             className="icon-btn"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

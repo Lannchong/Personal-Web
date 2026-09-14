@@ -28,7 +28,7 @@ export default function CustomCursor() {
       const view = e.target.closest?.('[data-cursor="view"]');
       const hover = e.target.closest?.('a, button, .filter-btn');
       ring.classList.toggle('is-view', !!view);
-      ring.textContent = view ? 'VIEW' : '';
+      ring.textContent = view ? 'VIEW ↗' : '';
       if (!view) ring.classList.toggle('is-hover', !!hover);
       else ring.classList.remove('is-hover');
     };

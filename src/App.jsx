@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import CustomCursor from './components/CustomCursor';
@@ -9,7 +9,7 @@ import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
 
 // Satu halaman, banyak route: tiap route /daven/* me-render Home dan
-// mengantar ke section-nya. Desain tidak berubah — URL yang addressable,
+// mengantar ke section-nya. Desain tidak berubah - URL yang addressable,
 // back/forward/refresh bekerja.
 const SECTION_ROUTES = {
   '/daven/home': 'home',

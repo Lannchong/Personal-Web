@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 
 export const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 24 },
   show: (d = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, delay: d, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.7, delay: d, ease: [0.22, 1, 0.36, 1] },
   }),
 };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Code2, Gamepad2, Palette } from 'lucide-react';
 import { Reveal } from './Reveal';
 
@@ -12,7 +12,7 @@ const personalInfo = [
   { k: 'Role', v: '2D Game Developer' },
   { k: 'Focus', v: 'Games · UI/UX · Frontend' },
   { k: 'Tools', v: 'Unity · Figma · React' },
-  { k: 'Location', v: 'Indonesia — Open Remote' },
+  { k: 'Location', v: 'Purwokerto, Jawa Tengah' },
 ];
 
 function ProfilePhoto() {
@@ -36,7 +36,7 @@ export default function About() {
     <section id="about" className="section-pad">
       <div className="wrap">
         <div className="about-grid">
-          {/* LEFT — heading + intro */}
+          {/* LEFT - heading + intro */}
           <div className="about-main">
             <Reveal>
               <div className="section-meta"><span className="num">01</span><span>/ About</span></div>
@@ -49,12 +49,12 @@ export default function About() {
               </p>
               <p className="lead about-emphasis">
                 Saya suka mengubah ide sederhana menjadi sesuatu yang bisa{' '}
-                <strong>dimainkan, digunakan, dan dirasakan</strong> — bukan cuma dilihat.
+                <strong>dimainkan, digunakan, dan dirasakan</strong>, bukan cuma dilihat.
               </p>
             </Reveal>
           </div>
 
-          {/* RIGHT — photo only, sticky lives on a plain div */}
+          {/* RIGHT - photo only, sticky lives on a plain div */}
           <div className="about-visual">
             <div className="about-photo-sticky">
               <Reveal delay={0.08}>
@@ -69,7 +69,7 @@ export default function About() {
             </div>
           </div>
 
-          {/* LEFT — description + info + capabilities */}
+          {/* LEFT - description + info + capabilities */}
           <div className="about-sub">
             <Reveal>
               <p className="lead">

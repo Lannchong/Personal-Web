@@ -47,7 +47,7 @@ export default function Projects() {
         </motion.div>
 
         {list.length === 0 && (
-          <p className="lead" style={{ marginTop: 24 }}>No projects in this category yet — check back soon.</p>
+          <p className="lead" style={{ marginTop: 24 }}>No projects in this category yet, check back soon.</p>
         )}
       </div>
     </section>

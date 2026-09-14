@@ -1,11 +1,12 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Gamepad2, Heart, Map, Zap } from 'lucide-react';
 import { Reveal } from './Reveal';
 
 function Runner() {
   // Pixel character yang berjalan mengikuti scroll (subtle, premium)
   const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const x = useTransform(scrollYProgress, [0, 1], ['4%', '88%']);
 
@@ -14,7 +15,7 @@ function Runner() {
       <motion.div style={{ x, position: 'absolute', bottom: 59, left: 0 }}>
         <motion.svg
           width="46" height="52" viewBox="0 0 46 52"
-          animate={{ y: [0, -5, 0] }}
+          animate={reduceMotion ? { y: 0 } : { y: [0, -5, 0] }}
           transition={{ duration: 0.55, repeat: Infinity, ease: 'easeInOut' }}
           style={{ imageRendering: 'pixelated' }}
         >
@@ -30,9 +31,9 @@ function Runner() {
 }
 
 const feats = [
-  { icon: <Zap size={18} />, title: 'Game feel & juice', desc: 'Coyote time, buffering, squash & stretch, screen shake — details yang bikin enak.' },
+  { icon: <Zap size={18} />, title: 'Game feel & juice', desc: 'Coyote time, buffering, squash & stretch, screen shake, details yang bikin enak.' },
   { icon: <Map size={18} />, title: 'Level & systems', desc: 'Core loop, difficulty curve, dan level beats yang jelas.' },
-  { icon: <Heart size={18} />, title: 'Pixel art direction', desc: 'Tiles, character & UI yang kohesif — minimal tapi berkarakter.' },
+  { icon: <Heart size={18} />, title: 'Pixel art direction', desc: 'Tiles, character & UI yang kohesif, minimal tapi berkarakter.' },
 ];
 
 export default function GameShowcase() {
@@ -55,7 +56,7 @@ export default function GameShowcase() {
                   <p style={{ color: 'var(--muted)', maxWidth: '46ch', lineHeight: 1.7 }}>
                     Identitas utama saya sebagai 2D Game Developer: perpaduan minimal
                     editorial design dengan estetika 2D game. Scroll dan lihat karakter
-                    kecil ini berjalan — small delight, tetap premium.
+                    kecil ini berjalan, small delight, tetap premium.
                   </p>
                 </Reveal>
                 <div className="showcase-feats">

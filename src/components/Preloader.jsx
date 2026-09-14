@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Single source of truth: satu state `progress` menggerakkan angka,
 // bar, DAN kondisi selesai. Loader tidak bisa keluar sebelum 100.
-const MIN_DURATION = 1100; // ms — progress selalu terlihat utuh walau cached
+const MIN_DURATION = 1100; // ms - progress selalu terlihat utuh walau cached
 const HOLD_MS = 300; // short hold di 100 / 100 sebelum exit
 const FAILSAFE_MS = 5000; // jangan pernah hang
 
@@ -48,12 +48,12 @@ export default function Preloader({ onComplete }) {
     let raf = 0;
     let finished = false;
 
-    // Milestone readiness nyata — target hanya naik saat resource benar siap
+    // Milestone readiness nyata - target hanya naik saat resource benar siap
     (async () => {
       try {
         await (document.fonts ? document.fonts.ready : Promise.resolve());
       } catch {
-        /* lanjut — fonts tidak boleh menggantung */
+        /* lanjut - fonts tidak boleh menggantung */
       }
       target = 35;
       await Promise.all(PRELOAD_IMAGES.map(loadImage));
@@ -69,7 +69,7 @@ export default function Preloader({ onComplete }) {
 
     const tick = (now) => {
       if (finished) return;
-      // Interpolasi smooth menuju target — angka selalu mengikuti progress
+      // Interpolasi smooth menuju target - angka selalu mengikuti progress
       display += (target - display) * (reduced ? 0.4 : 0.075);
       if (display > 99.6) display = 99.6;
       const elapsed = now - start;

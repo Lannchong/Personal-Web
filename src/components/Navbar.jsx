@@ -115,7 +115,7 @@ export default function Navbar({ theme, onToggleTheme }) {
               <Link to="/daven/contact" onClick={() => onNavClick('contact')} className="btn btn-primary" style={{ justifyContent: 'center' }} aria-label="Go to contact section">
                 Let&apos;s Talk <ArrowUpRight size={16} />
               </Link>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--muted)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--muted)' }}>
                 <span style={{ display: 'flex', gap: 14 }}>
                   {site.socials.map((s) => (
                     <a
@@ -130,7 +130,6 @@ export default function Navbar({ theme, onToggleTheme }) {
                     </a>
                   ))}
                 </span>
-                <span>ID / 06.20°S</span>
               </div>
             </div>
           </motion.div>

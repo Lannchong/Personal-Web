@@ -12,7 +12,7 @@ export default function Contact() {
         <Reveal>
           <div className="contact-box">
             <div className="section-meta contact-meta">
-              <span className="num">06</span><span>/ Contact</span>
+              <span className="num">05</span><span>/ Contact</span>
             </div>
             <h2 className="h-display h-lg contact-title">
               Let&apos;s build something<br /><span className="accent">meaningful</span> together.

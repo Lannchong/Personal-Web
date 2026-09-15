@@ -1,28 +1,74 @@
 import { useEffect, useRef, useState } from 'react';
-import { animate, motion, useInView } from 'framer-motion';
+import { animate, motion, useInView, useReducedMotion } from 'framer-motion';
 import { skills } from '../data/site';
 import TechLogos from './TechLogos';
 import { Reveal, SectionHeading } from './Reveal';
 
-function Pct({ value }) {
+const EASE = [0.22, 1, 0.36, 1];
+
+// Satu-satunya sumber data persentase: `skills` di data/site.js
+// (40 / 25 / 20 / 15, total 100). Tidak ada desktopPercentage /
+// mobilePercentage - desktop dan mobile membaca array yang sama.
+function SkillRow({ s, index }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
-  const [n, setN] = useState(0);
+  // Trigger berbasis proporsi elemen (bukan pixel rootMargin), sehingga
+  // bekerja identik di viewport HP 375px maupun desktop 1440px.
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+  const reduceMotion = useReducedMotion();
+
+  // DATA-DRIVEN DEFAULT: angka & bar selalu sama dengan data sejak render
+  // pertama. Animasi hanya enhancement - jika observer/animation tidak
+  // pernah jalan (mobile, reduced motion, tab background), UI tetap
+  // menampilkan 40 / 25 / 20 / 15 dan TIDAK PERNAH stuck di 0.
+  const [n, setN] = useState(s.percent);
+  const [w, setW] = useState(s.percent);
 
   useEffect(() => {
-    if (!inView) return;
-    const controls = animate(0, value, {
-      duration: 1.2,
-      ease: [0.22, 1, 0.36, 1],
-      onUpdate: (v) => setN(Math.round(v)),
+    if (!inView || reduceMotion) return;
+    const controls = animate(0, s.percent, {
+      duration: 0.9,
+      ease: EASE,
+      onUpdate: (v) => {
+        setN(Math.round(v));
+        setW(v);
+      },
+      onComplete: () => {
+        setN(s.percent);
+        setW(s.percent);
+      },
     });
     return () => controls.stop();
-  }, [inView, value]);
+  }, [inView, s.percent, reduceMotion]);
 
   return (
-    <span ref={ref} className="skill-pct" aria-label={`${value} percent of focus`}>
-      {n}<em>%</em>
-    </span>
+    <motion.div
+      ref={ref}
+      className="skill-row"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.6, delay: index * 0.06, ease: EASE }}
+    >
+      <span className="idx">{s.id}</span>
+      <div className="skill-main">
+        <h3>{s.title}</h3>
+        <p>{s.desc}</p>
+        <div className="skill-tags">
+          {s.tags.map((t) => (
+            <span key={t} className="tag">
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+      <span className="skill-pct" aria-label={`${s.percent} percent of focus`}>
+        {n}<em>%</em>
+      </span>
+      {/* Lebar bar selalu berasal dari data persentase yang sama dengan angka */}
+      <div className="focus-bar" aria-hidden="true">
+        <i style={{ width: `${w}%` }} />
+      </div>
+    </motion.div>
   );
 }
 
@@ -49,36 +95,7 @@ export default function Skills() {
         </Reveal>
         <div className="skills-list">
           {skills.map((s, i) => (
-            <motion.div
-              key={s.id}
-              className="skill-row"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <span className="idx">{s.id}</span>
-              <div className="skill-main">
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-                <div className="skill-tags">
-                  {s.tags.map((t) => (
-                    <span key={t} className="tag">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <div className="focus-bar" aria-hidden="true">
-                  <motion.i
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${s.percent}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.2 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  />
-                </div>
-              </div>
-              <Pct value={s.percent} />
-            </motion.div>
+            <SkillRow key={s.id} s={s} index={i} />
           ))}
         </div>
         <Reveal delay={0.05}>

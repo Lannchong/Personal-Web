@@ -11,17 +11,17 @@ export default function Contact() {
       <div className="wrap">
         <Reveal>
           <div className="contact-box">
-            <div className="section-meta" style={{ justifyContent: 'center' }}>
+            <div className="section-meta contact-meta">
               <span className="num">06</span><span>/ Contact</span>
             </div>
-            <h2 className="h-display h-lg" style={{ margin: '0 0 16px', position: 'relative' }}>
+            <h2 className="h-display h-lg contact-title">
               Let&apos;s build something<br /><span className="accent">meaningful</span> together.
             </h2>
-            <p className="lead" style={{ margin: '0 auto 30px', position: 'relative' }}>
+            <p className="lead contact-lead">
               Have an idea, project, game, or collaboration in mind?
               Let&apos;s create something great.
             </p>
-            <div className="contact-ctas" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
+            <div className="contact-ctas">
               <a href={site.gmailCompose} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" aria-label={`Start a project over email to ${site.email}`}>
                 Start a project <ArrowRight size={16} />
               </a>

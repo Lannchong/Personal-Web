@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, Menu, Moon, Sun, X } from 'lucide-react';
@@ -31,9 +31,30 @@ export default function Navbar({ theme, onToggleTheme }) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  // Mobile menu open: lock body scroll, restore on close/unmount so the
+  // page can never stay locked. ESC closes, resizing to desktop closes.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    const onResize = () => {
+      if (window.innerWidth > 768) setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('resize', onResize);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [open ]);
+
   return (
     <>
-      <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
+      <header className={`nav ${scrolled || open ? 'scrolled' : ''} ${open ? 'menu-open' : ''}`}>
         <div className="nav-inner">
           <motion.div
             className="nav-pill"
@@ -102,10 +123,11 @@ export default function Navbar({ theme, onToggleTheme }) {
                   key={l.id}
                   to={l.to}
                   onClick={() => onNavClick(l.id)}
+                  className="mobile-link"
                   initial={{ opacity: 0, y: 22 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.06 * i, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 700, letterSpacing: '-0.04em' }}
+                  style={{ fontFamily: 'var(--font-display)', fontWeight: 700, letterSpacing: '-0.04em' }}
                 >
                   {l.label}
                 </MotionLink>
